@@ -13,7 +13,7 @@
     <br>
     <br>
     <ul style="text-align:left">
-      <li v-for="user in users">
+      <li v-for="(user, index) in users" :key="index"> <!-- use v-for as (value, key) and require bind:key=key to avoid linting errors -->
         <input type="checkbox" class="toggle" v-model="user.contacted">
         <span :class="{contacted: user.contacted}">
         {{ user.name }}: {{ user.email }}
@@ -30,23 +30,7 @@
     data () {
       return {
         newUser: {},
-        users: [
-          {
-            name: 'John Doe',
-            email: 'jdoe@email.com',
-            contacted: false
-          },
-          {
-            name: 'Steven Universe',
-            email: 'stevenu@email.com',
-            contacted: false
-          },
-          {
-            name: 'Pearl',
-            email: 'pearl@email.com',
-            contacted: false
-          }
-        ]
+        users: []
       }
     },
     methods: {
@@ -61,6 +45,13 @@
       deleteUser: function(user) {
         this.users.splice(this.users.indexOf(user), 1)
       }
+    },
+    created: function() { //lifecycle hooks
+      this.$http.get('https://jsonplaceholder.typicode.com/users/')
+        .then(function(response){
+            console.log(response.data)
+            this.users = response.data
+        })
     }
   }
 </script>
