@@ -6,7 +6,7 @@
     <p v-if="showName">{{ user.firstName }}</p>
     <p v-else>Nobody</p>
     <ul>
-      <li v-for="item in items">{{item.title}}</li>
+      <li v-for="(item, index) in items" :key="index">{{item.title}}</li>
     </ul>
     <button v-on:click="greet('Hello World')">Say Greeting</button>
     <br>
